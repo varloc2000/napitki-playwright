@@ -1,0 +1,12 @@
+services:
+  playwright:
+    build: .
+    container_name: playwright
+    restart: unless-stopped
+    shm_size: '256mb'
+    networks:
+      traefik-network:
+
+networks:
+  traefik-network:
+    external: true
