@@ -52,17 +52,17 @@ jobs:
       - name: Create project directory on server
         run: |
           ssh -o StrictHostKeyChecking=no \
-          root@${{ secrets.SSH_HOST }} "mkdir -p /srv/playwright"
+          root@${{ vars.SSH_HOST }} "mkdir -p /srv/playwright"
 
       - name: Copy project files to remote server
         run: |
           scp -o StrictHostKeyChecking=no \
             ./docker-compose.yml ./Dockerfile ./main.py \
-            root@${{ secrets.SSH_HOST }}:/srv/playwright/
+            root@${{ vars.SSH_HOST }}:/srv/playwright/
 
       - name: Build and deploy on remote server
         run: |
-          ssh -o StrictHostKeyChecking=no root@${{ secrets.SSH_HOST }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no root@${{ vars.SSH_HOST }} << 'EOF'
             cd /srv/playwright/
             docker compose -f docker-compose.yml build
             docker compose -f docker-compose.yml up -d --force-recreate --remove-orphans
